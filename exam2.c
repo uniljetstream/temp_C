@@ -8,7 +8,7 @@
 
 int main(void)
 {
-	int a = 10, b = 12;	
+	int a = 10, b = 12;
 	printf("a & b = %d\n", a & b); //1010, 1100 => 1000
 	// a | b
 	// a : 00000000 00000000 00000000 00001010
@@ -37,7 +37,7 @@ int main(void)
 	//~a >> 1 (-11 >> 1)
 	// a : 00000000 00000000 00000000 00001010
 	// ~a  : 11111111 11111111 11111111 11111010 ??
-	printf("~a = %d\n", ~a>>1); //-6
+	printf("~a = %d\n", ~a >> 1); //-6
 	return 0;
 }
 #endif
@@ -105,15 +105,15 @@ int main(void)
 int main(void)
 {
 	int age;
-	
+
 	prinft("나이를 입력하세요");
 	scanf("%d", &age);
 
-	if (age >= 20) 
+	if (age >= 20)
 	{
 		printf("성인입니다.");
 	}
-	else 
+	else
 	{
 		printf("미성년자입니다.");
 	}
@@ -150,7 +150,7 @@ int main(void)
 {
 	double price = 10000;
 	int count;
-	
+
 	printf("개수 입력 : ");
 	scanf("%d", &count);
 
@@ -213,7 +213,7 @@ int main(void)
 {
 	int count, member;
 	double price = 10000;
-	
+
 	printf("개수 입력 : ");
 	scanf("%d", &count);
 
@@ -226,7 +226,7 @@ int main(void)
 		{
 			price = price * count * (1 - 0.1) * (1 - 0.1);
 		}
-		else price = price*count*(1 - 0.1);
+		else price = price * count * (1 - 0.1);
 	}
 	else
 	{
@@ -255,7 +255,7 @@ int main(void)
 	switch (month)
 	{
 	case 4:
-		printf("봄\n"); 
+		printf("봄\n");
 		break;
 	case 6:
 		printf("여름\n");
@@ -309,7 +309,7 @@ int main(void)
 
 int main(void)
 {
-	int pay, menu, rest_1000=0, rest_500=0, rest_100=0;
+	int pay, menu, rest_1000 = 0, rest_500 = 0, rest_100 = 0;
 	printf("금액을 입력하세요 : ");
 	scanf("%d", &pay);
 
@@ -336,13 +336,13 @@ int main(void)
 		printf("돈이 부족해요 ㅠㅠ");
 		return 0;
 	}
-	
+
 	printf("%d\n", pay);
 	if (pay % 1000 == 0) rest_1000 = pay / 1000;
 	else if (pay % 1000 != 0)
 	{
 		rest_1000 = pay / 1000;
-		if (pay % 1000 % 500 == 0) rest_500 = pay%1000 / 500;
+		if (pay % 1000 % 500 == 0) rest_500 = pay % 1000 / 500;
 		else if (pay % 1000 % 500 != 0)
 		{
 			rest_500 = pay % 1000 / 500;
@@ -376,7 +376,7 @@ int main(void)
 	if (oper == '*') printf("%d*%d=%d", num1, num2, num1 * num2);
 
 	if (oper == '/') printf("%d/%d=%d", num1, num2, num1 / num2);
-	
+
 	return 0;
 }
 #endif
@@ -390,7 +390,7 @@ int main(void)
 
 int main(void)
 {
-	int num=0, cnt=0;
+	int num = 0, cnt = 0;
 
 	printf("정수 입력 : ");
 	scanf("%d", &num);
@@ -417,7 +417,7 @@ int main(void)
 
 int main(void)
 {
-	int num=0;
+	int num = 0;
 
 	while (num < 10) {
 		printf("정수입력 : ");
@@ -454,12 +454,13 @@ int main(void)
 // [6-4] for 문 연습.
 /***********************************************************/
 
-#if 1 
+#if 0
 #include <stdio.h>
 
 int main(void)
 {
-	for (int i = 1;i < 11;i++) {	//지역변수 i의 성격
+	for (int i = 1;i < 11;i++)
+	{	//지역변수 i의 성격
 		printf("%d ", i);
 	}
 	printf("\n\n");
@@ -474,24 +475,29 @@ int main(void)
 	}
 	printf("\n\n");
 	//1에서 100까지 3의 배수만 출력
-	for (int i = 1;i <= 100;i++) {
-		if (i % 3 == 0) 
+	for (int i = 1;i <= 100;i++)
+	{
+		if (i % 3 == 0)
 		{
 			printf("%d ", i);
 		}
 	}
 	printf("\n\n");
-	for (int i = 1;i <= 100;i++) {
-		if (i % 3 == 0 && i % 5 == 0) 
+	for (int i = 1;i <= 100;i++) 
+	{	//3과 5의 배수만 출력
+		if (i % 3 == 0 && i % 5 == 0)
 		{
-			printf("%d ", i);
-		}
-	}
-	printf("\n\n");
-	for (int i = 1;i <= 100;i++) {
-		if (i % 3 == 0) 
-		{
+			//printf("%d ", i);
 			continue;
+		}
+		printf("%d ", i);
+	}
+	printf("\n\n");
+	for (int i = 1;i <= 100;i++)
+	{	//3의 배수 제외 출력
+		if (i % 3 == 0)
+		{
+			continue;	//더 이상 진행 시키지 않고 다음 증가식으로 이동.(break는 for문 자체를 중단시킴.)
 		}
 		printf("%d ", i);
 	}
@@ -501,7 +507,7 @@ int main(void)
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [6-5] 배수 출력하기
 /***********************************************************/
 
 #if 0
@@ -509,13 +515,20 @@ int main(void)
 
 int main(void)
 {
+	int num = 0;
 
+	printf("자연수를 입력하세요 : ");
+	scanf("%d", &num);	
+	for (int i = 1;i < 11;i++) 
+	{
+		printf("%d ", num * i);
+	}
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [6-6] 구구단 출력하기
 /***********************************************************/
 
 #if 0
@@ -523,13 +536,15 @@ int main(void)
 
 int main(void)
 {
-
+	for (int i = 1;i < 10;i++) {
+		printf("2 x %d = %d\n", i, 2 * i);
+	}
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [6-7] 입력받은 정수의 약수를 구하기
 /***********************************************************/
 
 #if 0
@@ -537,13 +552,25 @@ int main(void)
 
 int main(void)
 {
-
+	int num;
+	printf("정수를 입력하세요 : ");
+	scanf("%d", &num);
+	printf("%d의 약수 : ", num);
+	for (int i = 1;i < num + 1;i++)
+	{
+		if (num % i == 0) {
+			printf("%d ", i);
+		}
+	}
+	/*
+	약수의 성질 : 자기자신 끝까지 구할 필요 없이 절반까지만 구하고 자기자신만 추가해도 같은결과.
+	*/
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [6-권장] 권장규칙
 /***********************************************************/
 
 #if 0
@@ -551,13 +578,40 @@ int main(void)
 
 int main(void)
 {
-
+	//초기식, 조건식, 증감식은 반복회수를 알기 쉅게 작성한다.
+	for (int i = 7;i <= 16;i++)
+	{
+		printf("%d ", i - 6);
+	}
+	//반복 횟수를 세는 변수를 반복문 안에서 바꾸지 않는 것이 좋다.
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [6-유지보수] 누적합 do~while
+/***********************************************************/
+
+#if 0 
+#include <stdio.h>
+
+int main(void)
+{
+	int sum = 0;	//누적합을 저장하는 변수
+	int num;
+	do
+	{
+		printf("정수 입력 : ");
+		scanf("%d", &num);
+		sum += num;
+		printf("누적 합계 : %d\n", sum);
+	} while (num != -1);
+	return 0;
+}
+#endif
+
+/***********************************************************/
+// [6-많이 써요] 무한 반복문.
 /***********************************************************/
 
 #if 0
@@ -565,13 +619,93 @@ int main(void)
 
 int main(void)
 {
-
+	//1을 무한히 출력
+	int sum= 0, num = 0;
+	while (1)
+	{
+		printf("정수 입력 : ");
+		scanf("%d", &num);
+		if (num == -1) break;
+		sum += num;
+		printf("누적 합계 : %d \n", sum);
+	}
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [6-8] 다이어트 관리 프로그램. 
+/***********************************************************/
+
+#if 0; 
+#include <stdio.h>
+
+int main(void)
+{
+	int crt_weight = 0, goal_weight = 0;
+	printf("현재 몸무게를 입력하세요 : ");
+	scanf("%d", &crt_weight);
+
+	printf("목표 몸무게를 입력하세요 : ");
+	scanf("%d", &goal_weight);
+	
+	int week = 1, weight=0;
+	while (1)
+	{
+		printf("%d 주차 감량 몸무게 : ", week);
+		scanf("%d", &weight);
+		crt_weight -= weight;
+		if (crt_weight <= goal_weight) {
+			printf("%d kg 달성!! 축하합니다.\n", crt_weight);
+			break;
+		}
+		week++;
+	}
+	return 0;
+}
+#endif
+
+/***********************************************************/
+// [6-9] 로그인 프로그램
+/***********************************************************/
+//250410, 0405i
+#if 0
+#include <stdio.h>
+#include <string.h> //strcmp()
+
+int main(void)
+{
+	//char fruit1[20] = "banana";
+	//char fruit2[20] = "banana";
+	//printf("%d", strcmp(fruit1, fruit2));	//strcmp() : 0이면 두 인수가 같다. 기본자료형이 아니면 c언어에서는 비교 불가능.
+
+	char id[20] = "test";
+	char pw[20] = "test027";
+
+	char inputId[20], inputPw[20];
+	
+	while (1) 
+	{
+		printf("ID :");
+		scanf("%s", inputId);
+		printf("PW :");
+		scanf("%s", inputPw);
+
+		if (!(strcmp(id, inputId)) && !(strcmp(pw, inputPw)))
+		{
+			printf("로그인 성공\n");
+			break;
+		}
+		else {
+			printf("로그인 실패\n");
+		}
+	}
+	return 0;
+}
+#endif
+
+/***********************************************************/
+// [6-11] 별 찍기 기초
 /***********************************************************/
 
 #if 0
@@ -579,13 +713,21 @@ int main(void)
 
 int main(void)
 {
-
+	int i, j;
+	for (i = 0;i < 3;i++)
+	{
+		for (j = 0;j < 5;j++)
+		{
+			printf("*");
+		}
+		printf("\n");
+	}
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [6-13] 별찍기 응용
 /***********************************************************/
 
 #if 0
@@ -593,13 +735,21 @@ int main(void)
 
 int main(void)
 {
-
+	int i, j;
+	for (i = 1;i <= 5;i++) 
+	{
+		for (j = 0;j < i;j++) 
+		{
+			printf("*");
+		}
+		printf("\n");
+	}
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [6-14] 별찍기 응용2
 /***********************************************************/
 
 #if 0
@@ -607,13 +757,25 @@ int main(void)
 
 int main(void)
 {
-
+	int i, j, k;
+	for (i = 0;i < 5;i++) 
+	{
+		for (j = 4; j > i;j--)
+		{
+			printf(" ");
+		}
+		for (k = 0;k < i+1;k++)
+		{
+			printf("*");
+		}
+		printf("\n");
+	}
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [6-15] 별찍기 응용3
 /***********************************************************/
 
 #if 0
@@ -621,13 +783,21 @@ int main(void)
 
 int main(void)
 {
-
+	int i, j, k;
+	for (i = 0;i < 5;i++)
+	{
+		for (j = 5;j > i;j--)
+		{
+			printf("*");
+		}
+		printf("\n");
+	}
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [6-16] 별찍기 응용4
 /***********************************************************/
 
 #if 0
@@ -635,50 +805,18 @@ int main(void)
 
 int main(void)
 {
+	int i, j, k;
+	for (i = 0;i < 5;i++)
+	{
+		for (j = 0;j < 5;j++)
+		{
 
+		}
+	}
 	return 0;
 }
 #endif
 
-/***********************************************************/
-// [0-0] Ÿ��Ʋ
-/***********************************************************/
 
-#if 0
-#include <stdio.h>
 
-int main(void)
-{
-
-	return 0;
-}
-#endif
-
-/***********************************************************/
-// [0-0] Ÿ��Ʋ
-/***********************************************************/
-
-#if 0
-#include <stdio.h>
-
-int main(void)
-{
-
-	return 0;
-}
-#endif
-
-/***********************************************************/
-// [0-0] Ÿ��Ʋ
-/***********************************************************/
-
-#if 0
-#include <stdio.h>
-
-int main(void)
-{
-
-	return 0;
-}
-#endif
 
