@@ -203,21 +203,47 @@ int main(void)
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [5-07] 추석 선물 세트 확장
 /***********************************************************/
 
-#if 0
+#if 0 
 #include <stdio.h>
 
 int main(void)
 {
+	int count, member;
+	double price = 10000;
+	
+	printf("개수 입력 : ");
+	scanf("%d", &count);
+
+	printf("회원 여부(회원 1 비회원 0) : ");
+	scanf("%d", &member);
+
+	if (count >= 11)
+	{
+		if (member == 1)
+		{
+			price = price * count * (1 - 0.1) * (1 - 0.1);
+		}
+		else price = price*count*(1 - 0.1);
+	}
+	else
+	{
+		if (member == 1)
+		{
+			price = price * count * (1 - 0.1);
+		}
+		else price = price * count * (1 - 0.1);
+	}
+	printf("%.0lf 원 입니다.", price);
 
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [5-7.5] switch란
 /***********************************************************/
 
 #if 0
@@ -225,13 +251,24 @@ int main(void)
 
 int main(void)
 {
-
+	int month = 4;
+	switch (month)
+	{
+	case 4:
+		printf("봄\n"); 
+		break;
+	case 6:
+		printf("여름\n");
+		break;
+	default:
+		break;
+	}
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [5-8] 상금 지급 프로그램
 /***********************************************************/
 
 #if 0
@@ -239,13 +276,32 @@ int main(void)
 
 int main(void)
 {
+	int rank;
 
+	printf("등수 입력 : ");
+	scanf("%d", &rank);
+
+	switch (rank)	//printf("%d\n", -100*rank+400) 이면 한 번에 가능. rank를 x좌표, 금액을 y좌표를 하면 나오는 1차함수 식.
+	{
+	case 1:
+		printf("300만원");
+		break;
+	case 2:
+		printf("200만원");
+		break;
+	case 3:
+		printf("100만원");
+		break;
+	default:
+		printf("상금 못 받지롱~");
+		break;
+	}
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [5-확인] 자판기 프로그램
 /***********************************************************/
 
 #if 0
@@ -253,13 +309,53 @@ int main(void)
 
 int main(void)
 {
+	int pay, menu, rest_1000=0, rest_500=0, rest_100=0;
+	printf("금액을 입력하세요 : ");
+	scanf("%d", &pay);
 
+	printf("메뉴를 고르세요\n [1]아침햇살(700원) [2]솔의눈(1000원) [3]데자와(500원) :");
+	scanf("%d", &menu);
+
+	switch (menu)	//메뉴 가격 차감.
+	{
+	case 1:
+		pay -= 700;
+		break;
+	case 2:
+		pay -= 1000;
+		break;
+	case 3:
+		pay -= 500;
+		break;
+	default:
+		break;
+	}
+
+	if (pay < 0)
+	{
+		printf("돈이 부족해요 ㅠㅠ");
+		return 0;
+	}
+	
+	printf("%d\n", pay);
+	if (pay % 1000 == 0) rest_1000 = pay / 1000;
+	else if (pay % 1000 != 0)
+	{
+		rest_1000 = pay / 1000;
+		if (pay % 1000 % 500 == 0) rest_500 = pay%1000 / 500;
+		else if (pay % 1000 % 500 != 0)
+		{
+			rest_500 = pay % 1000 / 500;
+			rest_100 = pay % 1000 % 500 / 100;
+		}
+	}
+	printf("천원 : %d, 오백원 : %d, 백원 : %d", rest_1000, rest_500, rest_100);
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [5-도전실전예제] 계산기 프로그램
 /***********************************************************/
 
 #if 0
@@ -267,13 +363,26 @@ int main(void)
 
 int main(void)
 {
+	int num1, num2;
+	char oper;
 
+	printf("사칙연산 입력(정수) : ");
+	scanf("%d%c%d", &num1, &oper, &num2);
+
+	if (oper == '+') printf("%d+%d=%d", num1, num2, num1 + num2);
+
+	if (oper == '-') printf("%d-%d=%d", num1, num2, num1 - num2);
+
+	if (oper == '*') printf("%d*%d=%d", num1, num2, num1 * num2);
+
+	if (oper == '/') printf("%d/%d=%d", num1, num2, num1 / num2);
+	
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [6-1] 자릿수 계산 프로그램
 /***********************************************************/
 
 #if 0
@@ -281,49 +390,112 @@ int main(void)
 
 int main(void)
 {
+	int num=0, cnt=0;
 
+	printf("정수 입력 : ");
+	scanf("%d", &num);
+
+	//대게 반복 횟수가 정해져 있지 않을 때!! : while
+	//반복회수가 정해져 있을 때!! : for
+	while (num != 0)
+	{
+		num = num / 10;
+		cnt++;
+		//if (num == 0) break;
+	}
+	printf("%d 자리 정수입니다.", cnt);
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [6-2] 10보다 작은 값 입력 프로그램
 /***********************************************************/
 
-#if 0
+#if 0 
 #include <stdio.h>
 
 int main(void)
 {
+	int num=0;
 
+	while (num < 10) {
+		printf("정수입력 : ");
+		scanf("%d", &num);
+	}
+	printf("종료되었습니다.");
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [6-3] 누적합 출력 프로그램
 /***********************************************************/
 
-#if 0
+#if 0 
 #include <stdio.h>
 
 int main(void)
 {
-
+	int num, sum = 0;
+	while (1) {
+		printf("정수 입력 : ");
+		scanf("%d", &num);
+		if (num == -1) break;
+		sum += num;
+		printf("누적 결과 : %d\n", sum);
+	}
+	printf("종료되었습니다.");
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] Ÿ��Ʋ
+// [6-4] for 문 연습.
 /***********************************************************/
 
-#if 0
+#if 1 
 #include <stdio.h>
 
 int main(void)
 {
-
+	for (int i = 1;i < 11;i++) {	//지역변수 i의 성격
+		printf("%d ", i);
+	}
+	printf("\n\n");
+	for (int i = 21;i <= 57;i++)
+	{
+		printf("%d ", i);
+	}
+	printf("\n\n");
+	for (int i = 96;i >= 53;i--)
+	{
+		printf("%d ", i);
+	}
+	printf("\n\n");
+	//1에서 100까지 3의 배수만 출력
+	for (int i = 1;i <= 100;i++) {
+		if (i % 3 == 0) 
+		{
+			printf("%d ", i);
+		}
+	}
+	printf("\n\n");
+	for (int i = 1;i <= 100;i++) {
+		if (i % 3 == 0 && i % 5 == 0) 
+		{
+			printf("%d ", i);
+		}
+	}
+	printf("\n\n");
+	for (int i = 1;i <= 100;i++) {
+		if (i % 3 == 0) 
+		{
+			continue;
+		}
+		printf("%d ", i);
+	}
+	printf("\n\n");
 	return 0;
 }
 #endif
