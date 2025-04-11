@@ -806,12 +806,42 @@ int main(void)
 int main(void)
 {
 	int i, j, k;
-	for (i = 0;i < 5;i++)
+	for (i = 1;i < 6;i++)
 	{
-		for (j = 0;j < 5;j++)
+		for (j = 0;j < i;j++) 
 		{
-
+			printf(" ");
 		}
+		for (k = 0;k < 6-i;k++)
+		{
+			printf("*");
+		}
+		printf("\n");
+	}
+	return 0;
+}
+#endif
+
+/***********************************************************/
+// [6-17] 별찍기 응용
+/***********************************************************/
+
+#if 0
+#include <stdio.h>
+
+int main(void)
+{
+	for (int i = 1;i < 6;i++)
+	{
+		for (int k = 5;k > i;k--)
+		{
+			printf(" ");
+		}
+		for (int j = 0;j < i;j++)
+		{
+			printf("**");
+		}
+		printf("\n");
 	}
 	return 0;
 }
