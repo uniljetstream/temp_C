@@ -226,20 +226,43 @@ void swap(int a, int b) {
 // [9-도전] 미니 정렬 프로그램
 /***********************************************************/
 
-#if 1 
+#if 0
 #include <stdio.h>
 
 void swap(int* pa, int* pb);
-void descecending(int* max, int* mid, int* min);
+void descending(int* max, int* mid, int* min);
 int main(void)
 {
-
+	int max, mid, min;
+	scanf("%d %d %d", &max, &mid, &min);
+	//값 3개 넘길 시 가장 큰 값을 max, 중간값을 mid, 가장 작은 값을 min으로 바꾸는 함수.
+	descending(&max, &mid, &min);	//내림차순
+	printf("%d %d %d\n", max, mid, min);
 	return 0;
+}
+void swap(int* pa, int* pb) { //메모리에 실제 주소값으로 변수를 바꿈
+	int temp;
+	temp = *pa;
+	*pa = *pb;
+	*pb = temp;
+}
+void descending(int* max, int* mid, int* min) {
+	for (int i = 0;i < 3;i++) {
+		if (*max < *mid) {
+			swap(max, mid);	//이 함수의 매개변수는 이미 주솟값임. 따라서 &붙혀서 넘길 필요가 없음.
+		}
+		else if (*mid < *min) {
+			swap(mid, min);
+		}
+		else if (*max < *min) {
+			swap(max, min);
+		}
+	}
 }
 #endif
 
 /***********************************************************/
-// [0-0] 타이틀
+// [10-1] 배열명에 정수 연산을 수행해 배열 요소 사용
 /***********************************************************/
 
 #if 0
@@ -247,13 +270,25 @@ int main(void)
 
 int main(void)
 {
+	int ary[3];	//3칸짜리 int 형 배열 선언!(총 12byte)
+	int i;
+	printf("%d\n", ary);
+	printf("%d\n", &ary[0]);	//배열의 0번 인덱스는 배열의 주소를 가르킴.
+	printf("%d\n", ary+1);	//배열의 0번 인덱스는 배열의 주소를 가르킴.
 
+	ary[0] = 10;
+	*(ary + 1) = 20; //ary[1]에 넣음.
+	//*(ary+3) = 10;	//범위에 벗어난 주소 사용 금지!!
+
+	for (int i = 0;i < 3;i++) {
+		printf("%d 번째 요소 : %d\n", i + 1, ary[i]);
+	}
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] 타이틀
+// [10-2] 배열명처럼 사용되는 포인터
 /***********************************************************/
 
 #if 0
@@ -261,35 +296,80 @@ int main(void)
 
 int main(void)
 {
+	int ary[3];
+	int* pa = ary;	//ary자체가 첫번째 배열의 주소
 
+	*pa = 10;
+	//20을 배열 두번째 요소(인덱스1)에 할당
+	//*(pa + 1) = 20;
+
+	pa++;
+	*pa = 20;
+	
+	for (int i = 0;i < 3;i++) {
+		printf("%d번째 요소 : %d\n", (i + 1), ary[i]);
+	}
+
+	printf("배열 전체의 길이 : %d\n", (int)sizeof(ary));
+	printf("포인터 하나의 길이 : %d\n", (int)sizeof(pa));
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] 타이틀
-/***********************************************************/
+// [10-3] 포인터를 이용한 배열의 값 출력
+// /***********************************************************/
 
 #if 0
 #include <stdio.h>
 
 int main(void)
 {
+	int ary[3] = { 10, 20, 30 };
+	int* pa = ary;
+
+	printf("배열의 값 : ");
+	for (int i = 0;i < 3;i++) {
+		printf("%d ", *(pa++));	//pa를 사용시킨후 증가 시킴., 전위 증감 연산자는 사용하지말자 오버플로우난다.
+	}//++(*pa), (*pa)++는 안된다.
+
+	//후위 증감 연산자 사용 시!!
+	//주소 값을 확인하여 범위를 벗어난지 확인 필요
+	pa = ary;	//for문에 인덱스를 넘어서기 때문에 재할당필요
 
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] 타이틀
+// [10-4] 포인터의 뺄셈과 관계 연산
 /***********************************************************/
 
-#if 0
+#if 1 
 #include <stdio.h>
-
+//관계연산, 대소비교 가능!
 int main(void)
 {
+	int ary[5] = { 10, 20, 30, 40, 50 };
+	int* pa = ary;	//10
+	int* pb = pa + 3;	//40
+	//ary+1 도 가능 하지만 원본은 ary는 건들지 말고 포인터 변수를 하나 만들어서 처리하는 것이좋다.
 
+	printf("pa : %u\n", pa);
+	printf("pb : %u\n", pb);
+	
+	pa++;
+	printf("pb-pa : %u\n", pb - pa);
+	
+	//두 포인터 중
+	// 더 앞에 있는 (인덱스가 작은) 요소 출력!!
+	if (pa < pb) {
+		printf("%d", *pa);
+	}
+	else
+	{
+		printf("%d\n", *pb);
+	}
 	return 0;
 }
 #endif
