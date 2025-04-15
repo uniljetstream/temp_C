@@ -1174,52 +1174,205 @@ int main(void)
 #endif
 
 /***********************************************************/
-// [0-0] 템플릿
+// [12-8] 문자열을 대입하는 strcpy함수
 /***********************************************************/
-
+//문자열은 기본 자료형이 아니기 때문에 함수 사용해서 비교 연산 진행
 #if 0
 #include <stdio.h>
+#include <string.h>
 
 int main(void)
 {
+	char str[80] = "strawberry";
+	//str을 "banana"로 바꾸시오
+	// str = "strawberry"; //금지
+	strcpy(str, "banana");
+	printf("%s\n", str);
 
+	char* ps = str;
+	ps = "straberry";
+	printf("%s\n", ps);	//가르키는 메모리가 바뀐 것이므로 str의 변화와는 관계없음.
+	printf("%s", str);
+	
 
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] 템플릿
+// [11-9] n개의 문자열을 복사하는 strncpy 
 /***********************************************************/
 
 #if 0
 #include <stdio.h>
+#include <string.h>
 
 int main(void)
 {
+	char str[80] = "strawberry";
+	strncpy(str, "mango", 5);
 
+	printf("%s\n", str);
+
+	char* ps = "choch";
+	strncpy(str, ps, 5);
+
+	printf("%s\n", str);
+	
+	char str2[80] = "melon_top_100";
+	strncpy(str, str2, 5);
+
+	printf("%s\n", str);
 
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] 템플릿
+// [12-8-직접구현] strcpy
 /***********************************************************/
 
 #if 0
 #include <stdio.h>
 
+char* my_strcpy(char* pd, char* ps);	//strcpy함수를 따라가기 위해 char* 타입으로, void 타입도 무관.
 int main(void)
 {
+	char str[80] = "strawberry";
+	printf("바꾸기 전 까지 문자열 : %s\n", str);	//strawberry
+	
+	//my_strcpy(복사할곳, 복사할 내용);
+	//배열을 다룰 때 크기를 넣는 이유
+	// -> 다른 함수에서 원래 배열의 크기를 못보기 때문
+	//문자열 배열 -> 다른 함수에서 문자열 크기 볼수 있을까요? 볼 수 있습니다.
+	// 널 문자까지 개수를 세면 가능.
+	my_strcpy(str, "mango");
 
+	printf("바꾼 후 문자열 : %s\n", str); //magoberry
+	return 0;
+}
+
+char* my_strcpy(char* pd, char* ps)
+{
+	char* po = pd;
+	
+	while (*ps) {
+		*po = *ps;
+		po++;
+		ps++;
+		//*po++ = *ps++;
+	} 
+	*po = '\0';
+	return po;
+}
+#endif
+
+/***********************************************************/
+// [12-10] 문자열을 연결하는 strcat() 
+/***********************************************************/
+
+#if 0
+#include <stdio.h>
+#include <string.h> //strcat()
+
+int main(void)
+{
+	char str[80] = "straw";
+	//strcat(연결할 장소, 연결 내용); 	
+	strcat(str, "berry");
+	printf("%s\n", str);
+
+	char* pi = " ice-cream";
+	strcat(str, pi);
+	printf("%s\n", str);
+
+	char str2[80] = "cake dessert yogurt";
+	strncat(str, str2, 4);
+	printf("%s\n", str);
 
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] 템플릿
+// [12-10-직접구현]	나만의 my_strcat() 만들기
+/***********************************************************/
+
+#if 0
+#include <stdio.h>
+
+char* my_strcat(char* pd, char* ps);
+int main(void)
+{
+	char str[80] = "straw";
+	my_strcat(str, "berry");
+
+	printf("%s\n", str);	//strawberry
+	return 0;
+}
+
+char* my_strcat(char* pd, char* ps)
+{
+	char* po = pd;
+	while (1)
+	{
+		if (*po != '\0') po++;
+		else
+		{
+			while (1)
+			{
+				*po = *ps;
+				po++;
+				ps++;
+				if (*ps == '\0') {
+					*po = *ps;
+					break;
+				}
+			}
+			return po;
+		}
+	}
+}
+/*
+char *po = pd;
+while (*po) po++;
+while (*ps) *po++ = *po++;
+*po = '\0';	//안 넣어도 동작하는 이유 : 초기화된 문자열은 크기만큼 \0로 가득 차 있다.	
+return po;
+/*
+char* my_strcat(char* pd, char* ps)
+{
+   // pd -> straw
+   // ps -> berry
+   char* po = pd;
+   // po, ps를 가지고 진행
+   // "straw" "berry"
+   // 1. po를 가장 오른쪽 위치로 이동!!
+   while (1)
+   {
+	  po++;
+	  if (*po == '\0') break;
+   }
+   // 2. 해당 값들을 ps에 있는 값들로 채우자!!
+   // po -> w다음을 가리키고 있는 상태 index 5를 가리키고 있다
+   // ps -> berry에서 b를 가리키고 있는 상태
+   while (1)
+   {
+	  *po = *ps; // b -> w다음에 대입!!
+	  po++;
+	  ps++;
+	  if (*ps == '\0') break;
+   }
+   // 3. 끝나면 \0 넣자!!
+   *po = '\0';
+   return po;
+}
+*/
+
+#endif
+
+/***********************************************************/
+// [12-11] 문자열 길이 strlen()
 /***********************************************************/
 
 #if 0
@@ -1227,111 +1380,207 @@ int main(void)
 
 int main(void)
 {
+	char str1[80], str2[80];
+	printf("두 과일 입력(과일1 과일2) : ");
+	scanf("%s %s", str1, str2);
 
+	if (strlen(str1) > strlen(str2))
+	{
+		printf("첫 번째 과일이 더 깁니다.\n");
+	}
+	else
+	{
+		printf("두 번째 과일이 더 깁니다.\n");
+	}
+
+	printf("첫 번째 과일 : %s\n", str1);
+	printf("두 번재 과일 : %s\n", str2);
 
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] 템플릿
+// [12-11-직접] 나만의 my_strlen() 만들기
 /***********************************************************/
 
 #if 0
 #include <stdio.h>
 
+int my_strlen(char* str);
+
 int main(void)
 {
+	char str1[80], str2[80];
+	printf("두 과일 입력(과일1 과일2) : ");
+	scanf("%s %s", str1, str2);
 
+	if (my_strlen(str1) > my_strlen(str2))
+	{
+		printf("첫 번째 과일이 더 깁니다.\n");
+	}
+	else
+	{
+		printf("두 번째 과일이 더 깁니다.\n");
+	}
+
+	printf("첫 번째 과일 : %s\n", str1);
+	printf("두 번재 과일 : %s\n", str2);
+
+	return 0;
+}
+int my_strlen(char* str)
+{
+	int count = 0;
+	while (*str)
+	{
+		str++;
+		count++;
+	}
+	return count;
+}
+#endif
+
+/***********************************************************/
+// [12-12] strcmp 함수를 사용한 문자열 비교
+/***********************************************************/
+
+#if 0
+#include <stdio.h>
+#include <string.h>	//strcmp(), strncmp()
+
+int main(void)
+{
+	//strcmp(문자열1, 문자열2)
+	//각 문자열 앞에서부터 아스키 코드 값 비교
+	//모두 같으면 0 반환, 두 번째 문자열 아스키 코드 값이 크면 -  1, 첫번째 문자열 아스키 코드값이 크면 1
+	char str1[80] = "pear";
+	char str2[80] = "peach";
+	int result = strcmp(str1, str2);
+	int result2 = strncmp(str1, str2, 3);
+
+	switch (result2) 
+	{
+	case 1: printf("%s이 사전에 나중에 나옵니다.", str1); 
+		break;
+	case -1 :  printf("%s이 사전에 나중에 나옵니다.", str2); 
+		break;
+	case 0 :  printf("문자열이 동일합니다.");
+		break;
+	default: printf("잘못 입력하셨습니다.\n");
+		break;
+	}
 
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] 템플릿
+// [12-12] 나만의 my_strcmp()
 /***********************************************************/
 
-#if 0
+#if 1
 #include <stdio.h>
+
+int my_strcmp(char* str1, char* str2);
 
 int main(void)
 {
+	//strcmp(문자열1, 문자열2)
+	//각 문자열 앞에서부터 아스키 코드 값 비교
+	//모두 같으면 0 반환, 두 번째 문자열 아스키 코드 값이 크면 -  1, 첫번째 문자열 아스키 코드값이 크면 1
+	char str1[80] = "paaaa";
+	char str2[80] = "pzzz";
+	int result = my_strcmp(str1, str2);
 
+	switch (result)
+	{
+	case 1: printf("%s이 사전에 나중에 나옵니다.", str1);
+		break;
+	case -1:  printf("%s이 사전에 나중에 나옵니다.", str2);
+		break;
+	case 0:  printf("문자열이 동일합니다.");
+		break;
+	default: printf("잘못 입력하셨습니다.\n");
+		break;
+	}
 
 	return 0;
+
+	return 0;
+}
+
+int my_strcmp(char* str1, char* str2) 
+{
+	while (1)	
+	{
+		//str1, str를 둘을 가르키는 포인터를 만들어서 비교하는 것이 안전하다.
+		if (*str1 > *str2) return 1;
+		else if (*str1 < *str2) return -1;
+		else if (*str1 == *str2 && *str1 == '\0')
+		{
+			return 0;
+		}
+		str1++;
+		str2++;
+	}
+	/*
+	int my_strcmp(char* str1, char* str2)
+{
+   char *p1 = str1;
+   char *p2 = str2;
+
+   while ((*p1 == *p2) && ((*p1 != '\0')))
+   {
+      p1++;
+      p2++;
+   }
+   if (*p1 > *p2) return 1;
+   else if (*p1 < *p2) return -1;
+   else return 0;
+}
+	*/
 }
 #endif
 
 /***********************************************************/
-// [0-0] 템플릿
+// [12-추가] 문자 갯수 찾아보기
 /***********************************************************/
 
 #if 0
 #include <stdio.h>
 
+int find_char(char* string, char ch);
 int main(void)
 {
-
-
+	printf("%d\n", find_char("Hello", 'H'));
 	return 0;
 }
-#endif
-
-/***********************************************************/
-// [0-0] 템플릿
-/***********************************************************/
-
-#if 0
-#include <stdio.h>
-
-int main(void)
+int find_char(char* string, char ch)
 {
-
-
-	return 0;
-}
-#endif
-
-/***********************************************************/
-// [0-0] 템플릿
-/***********************************************************/
-
-#if 0
-#include <stdio.h>
-
-int main(void)
-{
-
-
-	return 0;
-}
-#endif
-
-/***********************************************************/
-// [0-0] 템플릿
-/***********************************************************/
-
-#if 0
-#include <stdio.h>
-
-int main(void)
-{
-
-
-	return 0;
+	char* ps = string;
+	int count = 0;
+	while (1)
+	{
+		if (*ps == '\0') return count;
+		if (*ps == ch) {
+			count++;
+		}
+		ps++;
+	}
 }
 #endif
 /***********************************************************/
-// [0-0] 템플릿
+// [12-도전] 단어 정렬 프로그램
 /***********************************************************/
-
+//해야함.
 #if 0
 #include <stdio.h>
 
 int main(void)
 {
-
+	char* word1 = { '\0' }, word2 = { '\0' }, word3 = { '\0' };
+	scanf("%s %s %s", word1, word2, word3);
 
 	return 0;
 }
