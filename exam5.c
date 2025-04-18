@@ -983,14 +983,184 @@ void print_list(struct student *lp, int size)
 #endif
 
 /***********************************************************/
-// [0-0] 템플릿
+// [17-8] 구조체 선언 
 /***********************************************************/
 
 #if 0
 #include <stdio.h>
 
+struct student
+{
+	int num;
+	double grade;
+} s1;	//구조체 변수를 이렇게도 선언 가능.
+
+struct student s1;	//이렇게도 가능.
+
 int main(void)
 {
+	
+	struct student //구조체를 한번만 쓸거면 main문 안에도 선언 가능
+	{
+		int num;
+		double grade;
+	};
+
+	return 0;
+}
+#endif
+
+/***********************************************************/
+// [17-9] 자기 참조 구조체
+/***********************************************************/
+
+#if 0 
+#include <stdio.h>
+
+struct list
+{
+	int num;
+	struct list* next;	//struct list*형의 변수
+};
+
+int main(void)
+{
+	//linked list
+	struct list a = { 10, }, b = { 20, }, c = { 30, };
+	//처음 값인 a를 가르키기 위한 주소
+	//head의 값은 절대 변경하지 않는다.
+	const struct list* head = &a;
+
+	a.next = &b;
+	b.next = &c;
+
+	//printf("a: %d, a.next의 주소 : %u\n", a.num, a.next);
+	//printf("b: %d, b.next의 주소 : %u\n", b.num, b.next);
+	//printf("c: %d, c.next의 주소 : %u\n", c.num, c.next);
+
+	printf("a : %d, a가 가리키는 주소 : %d\n", a.num, a.next);
+	printf("b : %d, b가 가리키는 주소 : %d\n", a.next->num, a.next->next);
+	printf("c : %d, c가 가리키는 주소 : %d\n", a.next->next->num, a.next->next->next);
+
+	//linked list 탐색
+	printf("list all : ");
+	struct list* current = head;
+	while(current != NULL)
+	{
+		printf("%d ", current->num);
+		current = current->next;
+	}
+
+	return 0;
+}
+#endif
+
+/***********************************************************/
+// [17-10] 공용체 union 
+/***********************************************************/
+
+#if 0 
+#include <stdio.h>
+union data
+{
+	int i;
+	double d;
+} weather_data;
+
+int main(void)
+{
+	//패킷을 통해 타 디바이스에서 데이터를 전공하고자한다.
+	//2개 data가 오는데
+	//1. 정수형 습도
+	//2. 실수형 기온
+	//예시 데이터 : 84,17.1,85,17.2,86,17.3
+	char* str = "84";
+	char* str = "84";
+	int count = 1;
+	if (count % 2 == 1)	//이럴 때 쓴다.
+	{
+		weather_data.i = 84;
+		count++;
+	}
+	else
+	{
+		weather_data.d = 17.1;
+		count++;
+	}
+
+	return 0;
+}
+#endif
+
+/***********************************************************/
+// [17-11] 열거형
+/***********************************************************/
+
+#if 0
+#include <stdio.h>
+
+enum discout {NORMAL, EALRY = 4000, TELECOME = 2000};	//초깃값 설정하면 그 다음 변수에 별도로 초깃값을 설정하지 않으면 그이전값 +1
+//기본적으로 0, 1, 2, 3...
+
+int main(void)
+{
+	// 영화 예매 프로그램
+	int menu;
+	printf("[1]없음 [2]조조 [3]통신사 할인\n");
+	printf("할인 권종을 선택하세요 : ");
+	scanf("%d", &menu);
+
+	int ticket_price = 14000;
+	switch (menu)
+	{
+	case 1: ticket_price -= NORMAL; break;
+	case 2: ticket_price -= EALRY; break;
+	case 3: ticket_price -= TELECOME; break;
+	default:
+		break;
+	}
+	
+	return 0;
+}
+#endif
+
+/***********************************************************/
+// [17-12] typedef을 사용한 사용자 자료형 재정의
+/***********************************************************/
+
+#if 0
+#include <stdio.h>
+#include <time.h>
+
+typedef signed int 정수;
+
+struct student
+{
+	int num;
+	double grade;
+};
+
+typedef struct student Student;	
+
+typedef struct
+{
+	char name[20];
+	int age;
+}; Profile; //구조체이름을 정하지 않고 typedef로 별칭을 바로 정함.
+
+int main(void)
+{
+	clock_t t = clock();	//typedef된 time.h의 예시
+
+	//구조체를 재정의하면
+	//대문자로 시작하자
+	//재정의하다러라도 struct student는 뜰 수 있다.
+	Student s1 = { 315, 3.7 };
+
+	int a = 10;
+	정수 b = 20;
+	printf("%d, %d\n", a, b);
+
 
 
 	return 0;
@@ -998,7 +1168,7 @@ int main(void)
 #endif
 
 /***********************************************************/
-// [0-0] 템플릿
+// [18-1,2] 파일 열고 닫기
 /***********************************************************/
 
 #if 0
@@ -1006,14 +1176,217 @@ int main(void)
 
 int main(void)
 {
+	FILE* fp;	//파일 구조체 포인터
+	const char* path = "C:\\Users\\INTEL07\\Desktop\\workspace_c\\a.txt";
+	//상대 경로로 경로 정할 때
+	//우리가 지금 바라 봤을 때 -> ctrl + f5
+	//컴파일 후 배포 할 때는 exe 기준.
+	const char* path2 = "..\\a.txt";
 
+	fp = fopen(path, "r");
+	if (fp == NULL)
+	{
+		printf("파일이 열리지 않았습니다.");
+		return 1;	//0은 main은 정상적 동작을 말함. 1은 비정상적 동작.
+	}
+	printf("파일이 열렸습니다.\n");
+
+	int ch;
+	while (1)
+	{
+		ch = fgetc(fp);
+		if (ch == EOF)
+		{
+			break;
+		}
+		putchar(ch);
+	}
+
+	fclose(fp);	//열었으면 닫자!! 열었으면 닫자!
 
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] 템플릿
+// [18-3] 파일에 문자열 쓰기 
+/***********************************************************/
+#if 0
+#include <stdio.h>
+
+int main(void)
+{
+	FILE* fp;
+	// 끝에 a.txt -> b.txt로 바꿔주세요!!
+	const char* path = "C:\\Users\\INTEL07\\Desktop\\workspace_c\\b.txt";
+	fp = fopen(path, "w");
+	if (fp == NULL) return 1;
+
+	char* words = "C CLEAR!!";
+	while (*words != NULL) fputc(*words++, fp);
+	fputc('\n', fp);
+
+	fclose(fp); // 열었으면 닫자, 열었으면 닫자
+	return 0;
+}
+#endif
+
+/***********************************************************/
+// [18-3-연습] 파일 입출력 연습
+/***********************************************************/
+
+#if 0
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+	// 현재, a.txt -> Hello World!!
+	// b.txt -> C CLEAR!!
+	// 두 파일을 읽어서
+	// 문자열에 string.h -> strcpy, strcat 활용해서
+	// 새로운 문자열 Hello World!! C CLEAR!! 를 만들어서
+	// 내용을 저장하는 c.txt를 만들자
+	FILE* fpa, *fpb, *fpc;	//파일 구조체 포인터
+	char* origin_path = "C:\\Users\\INTEL07\\Desktop\\workspace_c\\";
+	char path_a[256] = { 0, };
+	char path_b[256] = { 0, };
+	char path_c[256] = { 0, };
+	strcpy(path_a, origin_path);
+	strcpy(path_b, origin_path);
+	strcpy(path_c, origin_path);
+	strcat(path_a, "a.txt");
+	strcat(path_b, "b.txt");
+	strcat(path_c, "c.txt");
+
+	fpa = fopen(path_a, "r");
+	if (fpa == NULL) return 1;
+
+	fpb = fopen(path_b, "r");
+	if (fpb == NULL) return 2;
+
+	fpc = fopen(path_c, "w");
+	if (fpc == NULL) return 3;
+
+	char temp[256] = { 0, };
+	// 1. a.txt 읽어서 temp에 담기!! // Hello World!!
+	int ch;
+	char* pt = temp;
+	while (1)
+	{
+		ch = fgetc(fpa);
+		*pt++ = ch;
+		if (ch == EOF)
+		{
+			break;
+		}
+	}
+	pt--;
+	*pt = '\0';
+
+	// 2. b.txt 읽어서 temp에 추가!! // Hello World!! C CLEAR!!
+	while (1)
+	{
+		ch = fgetc(fpb);
+		*pt++ = ch;
+		if (ch == EOF)
+		{
+			break;
+		}
+
+	}
+	pt--;
+	*pt = '\0';
+
+	// 3. temp를 c.txt에 그대로 쓰기
+	pt = temp;
+	while (1)
+	{
+		fputc(*pt++, fpc);
+		if (*pt == NULL)
+		{
+			break;
+		}
+	}
+	fputc('\n', fpc);
+
+	fclose(fpa);
+	fclose(fpb);
+	fclose(fpc);
+
+	return 0;
+}
+#endif
+/*
+#include <stdio.h>
+#include <string.h>
+int main(void)
+{
+   FILE *fpa, *fpb, *fpc;
+   const char *origin_path = "C:\\Users\\Intel Master\\Desktop\\workspace_c\\";
+   char path_a[256] = { 0, };
+   char path_b[256] = { 0, };
+   char path_c[256] = { 0, };
+   strcpy(path_a, origin_path);
+   strcpy(path_b, origin_path);
+   strcpy(path_c, origin_path);
+   strcat(path_a, "a.txt");
+   strcat(path_b, "b.txt");
+   strcat(path_c, "c.txt");
+
+   fpa = fopen(path_a, "r");
+   if (fpa == NULL) return 1;
+
+   fpb = fopen(path_b, "r");
+   if (fpb == NULL) return 2;
+
+   fpc = fopen(path_c, "w");
+   if (fpc == NULL) return 3;
+
+   char temp[256] = { 0, };
+   // 1. a.txt 읽어서 temp에 담기!! // Hello World!!
+   // 2. b.txt 읽어서 temp에 추가!! // Hello World!! C CLEAR!!
+   // 3. temp를 c.txt에 그대로 쓰기
+   char* pt = temp;
+   int ch;
+   while (1)
+   {
+	  ch = fgetc(fpa);
+	  *pt++ = ch;
+	  if (ch == EOF) break;
+   }
+   pt--;
+
+   while (1)
+   {
+	  ch = fgetc(fpb);
+	  *pt++ = ch;
+	  if (ch == EOF) break;
+   }
+   pt--;
+   *pt = '\0';
+
+   pt = temp; // 쓰기 위해 포인터 맨 왼쪽으로 이동!!
+   while (1)
+   {
+	  fputc(*pt, fpc);
+	  pt++;
+	  if (*pt == NULL) break;
+   }
+   fputc('\n', fpc);
+
+   printf("%s\n", temp);
+
+   fclose(fpa);
+   fclose(fpb);
+   fclose(fpc);
+
+   return 0;
+}
+*/
+
+/***********************************************************/
+// [18-4] 표준 입출력 스트림을 사용한 문자열 입력, stdin, stdout
 /***********************************************************/
 
 #if 0
@@ -1021,14 +1394,228 @@ int main(void)
 
 int main(void)
 {
+	int ch;
+	while (1)
+	{
+		ch = getchar();
+		if (ch == EOF) break;
+		putchar(ch);
+	}
 
+	while (1)
+	{
+		ch = fgetc(stdin);	//현재 os와 연결된 키보드라는 뜻
+		if (ch == EOF) break;
+		fputc(ch, stdout);
+	}
+	return 0;
+}
+#endif
+
+/***********************************************************/
+// [18-6] 파일 형태와 개방 모드가 다른 경우
+/***********************************************************/
+
+#if 0
+#include <stdio.h>
+
+int main(void)
+{
+	FILE* fp;
+	char* path = "C:\\Users\\INTEL07\\Desktop\\workspace_c\\d.txt";
+
+	fp = fopen(path, "wb");
+	if (fp == NULL) return 1;
+
+	int array[10] = { 13, 10, 13, 13, 10, 26, 13, 10, 13, 10 };
+	for (int i = 0;i < 10;i++)
+	{
+		fputc(array[i], fp);
+	}
+
+	fclose(fp);
+
+	//txt 형식으로 읽어보자
+	fp = fopen(path, "rt");
+	int ch;
+	while (1)
+	{
+		ch = fgetc(fp);
+		if (ch == EOF) break;
+		printf("%3d", ch);
+	}
+	fclose(fp);
+	return 0;
+}
+#endif
+
+/***********************************************************/
+// [18-7] a+모드로 파일의 내용을 확인하며 출력
+/***********************************************************/
+
+#if 0 
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+	//FILE* fp;
+	////경로 끝에 music.txt
+	//char* path = "C:\\Users\\INTEL07\\Desktop\\workspace_c\\music.txt";
+
+	////추가될 데이터(문자열) 임시 저장되는 공간
+	//char str[20];
+	//
+	//fp = fopen(path, "a+");
+	//if (fp == NULL) return 1;
+
+	////logic
+	//while (1)
+	//{
+	//	printf("노래 제목 : ");
+	//	scanf("%s", str);
+	//	//end : 프로그램 종료
+	//	//list : 현재까지 저장된 모드 노래 출력
+	//	if (strcmp(str, "end") == 0) break;
+	//	else if (strcmp(str, "list") == 0)
+	//	{
+	//		//모든 정보 출력
+	//		//fp를 맨 첫줄
+	//		//맨 앞으로 이동시키자
+	//		fseek(fp, 0, SEEK_SET);
+
+	//		while (1)
+	//		{
+	//			fgets(str, strlen(str+1), fp);
+	//			//행 끝에 도달하면
+	//			//feof() ->
+	//			if (feof(fp) != 0) break;
+	//			printf("%s", str);
+	//		}
+	//	}
+	//	else
+	//	{
+	//		//while(1) fputc(), 문장 전체를 입력하는 fprint 두가지 다 가능.
+	//		fprintf(fp, "%s\n", str);
+	//	}
+	//	//str에 들어 있는 노래 정보를 
+	//	//d.txt에 쓰자
+	//	//맨 끝에 쓰자
+
+	//	//while (1)
+	//	//{
+	//	//	//만약에 아무 내용도 없다면 ㄱㅊ
+	//	//	// 내용이 있다면 -> fp를 가장 마지막 행으로 이동!!
+
+	//	//	//fseek(파일 포인터, 이동위치(양수 우, 음수 좌), 기준)
+	//	//	//fseek(fp,0 , SEEK_END);
+	//	//	//한 문장 씩 가져온다 <- 엔터 치는 곳까지
+	//	//	fgets(str, strlen(str), fp);
+
+	//	//	//fprintf -> 한 줄 씩 출력
+
+	//	//}
+	//}
+
+	//fclose(fp);
+	//return 0;
+	FILE* fp;
+	// 경로 끝에 music.txt
+	char* path = "C:\\Users\\INTEL07\\Desktop\\workspace_c\\music.txt";
+	// 추가될 데이터(문자열) 임시 저장되는 공간
+	char str[20];
+
+	fp = fopen(path, "a+");
+	if (fp == NULL) return 1;
+
+	// logic
+
+	while (1) {
+		printf("노래 제목 : "); // 아몬드 초콜릿
+		scanf("%s", str);
+		if (strcmp(str, "end") == 0) break; // end <- 프로그램 종료
+		else if (strcmp(str, "list") == 0) // list <- 현재까지 저장된 모든 노래 출력!!
+		{
+			// 모든 정보 출력하기 전
+			// fp를 맨 첫 줄 
+			// 맨 앞으로 이동시키자
+			fseek(fp, 0, SEEK_SET);
+			while (1)
+			{
+				// 개행(\n)가져오기 위해 +1
+				fgets(str, strlen(str) + 1, fp);
+				// 행 끝에 도달하면
+				// feof() -> 
+				if (feof(fp) != 0) break;
+				printf("%s", str);
+			}
+		}
+		// while(1) fputc(), -> 문장 전체를 입력, fputs() fprintf
+		else fprintf(fp, "%s\n", str);
+		// str에 들어 있는 노래 정보를
+		// 맨 끝에 d.txt에 쓰자!! 
+	}
+
+	fclose(fp); // 열었으면 닫자, 열었으면 닫자!!
+	return 0;
+
+}
+#endif
+
+/***********************************************************/
+// [18-8] 여러 줄의 문장을 입력해 한 줄로 내보내기
+/***********************************************************/
+
+#if 0 
+#include <stdio.h>
+#include <string.h> // strlen
+int main(void)
+{
+	// a : Hello World!!
+	// b : C CLEAR!!
+	// 2개를 e에 내보내기
+	char* path_a = "C:\\Users\\Intel Master\\Desktop\\workspace_c\\a.txt";
+	char* path_b = "C:\\Users\\Intel Master\\Desktop\\workspace_c\\b.txt";
+	char* path_e = "C:\\Users\\Intel Master\\Desktop\\workspace_c\\e.txt";
+
+	FILE* fpa, * fpb, * fpe;
+	fpa = fopen(path_a, "r");
+	if (fpa == NULL) return 1;
+
+	fpb = fopen(path_b, "r");
+	if (fpb == NULL) return 2;
+
+	fpe = fopen(path_e, "w");
+	if (fpe == NULL) return 3;
+
+	char str[80];
+	char* result;
+
+	while (1)
+	{
+		result = fgets(str, strlen(str) + 1, fpa);
+		if (result == NULL)
+		{
+
+			/*while (1)
+			{
+			   result = fgets(str, strlen(str) + 1, fpb);
+			   if (result == NULL) break;
+			}*/
+			break;
+		}
+		fputs(result, fpe);
+	}
+	fclose(fpa);
+	fclose(fpb);
+	fclose(fpe);
 
 	return 0;
 }
 #endif
 
 /***********************************************************/
-// [0-0] 템플릿
+// [18-9] 다양한 형식으로 내보내기
 /***********************************************************/
 
 #if 0
@@ -1036,142 +1623,33 @@ int main(void)
 
 int main(void)
 {
+	FILE* fp;
+	char* path = "C:\\Users\\INTEL07\\Desktop\\workspace_c\\girlfriend.txt";
+	fp = fopen(path, "r");
+	if (fp == NULL) return 1;
 
+	FILE* fs;
+	char *path_score = "C:\\Users\\INTEL07\\Desktop\\workspace_c\\score.txt";
+	fs = fopen(path_score, "w");
+	if (fs == NULL) return 2;
+	
+	//이름 국영수
+	char name[20];
+	int kor, eng, math;
+	int total, result;
+	double avg;
 
-	return 0;
-}
-#endif
+	while (1)
+	{
+		result = fscanf(fp, "%s %d %d %d", name, &kor, &eng, &math);	//fp의 한줄 씩 읽는다.
+		if (result == EOF) break;
+		total = kor + eng + math;
+		avg = total / 3.0;
 
-/***********************************************************/
-// [0-0] 템플릿
-/***********************************************************/
-
-#if 0
-#include <stdio.h>
-
-int main(void)
-{
-
-
-	return 0;
-}
-#endif
-
-/***********************************************************/
-// [0-0] 템플릿
-/***********************************************************/
-
-#if 0
-#include <stdio.h>
-
-int main(void)
-{
-
-
-	return 0;
-}
-#endif
-
-/***********************************************************/
-// [0-0] 템플릿
-/***********************************************************/
-
-#if 0
-#include <stdio.h>
-
-int main(void)
-{
-
-
-	return 0;
-}
-#endif
-
-/***********************************************************/
-// [0-0] 템플릿
-/***********************************************************/
-
-#if 0
-#include <stdio.h>
-
-int main(void)
-{
-
-
-	return 0;
-}
-#endif
-
-/***********************************************************/
-// [0-0] 템플릿
-/***********************************************************/
-
-#if 0
-#include <stdio.h>
-
-int main(void)
-{
-
-
-	return 0;
-}
-#endif
-
-/***********************************************************/
-// [0-0] 템플릿
-/***********************************************************/
-
-#if 0
-#include <stdio.h>
-
-int main(void)
-{
-
-
-	return 0;
-}
-#endif
-
-/***********************************************************/
-// [0-0] 템플릿
-/***********************************************************/
-
-#if 0
-#include <stdio.h>
-
-int main(void)
-{
-
-
-	return 0;
-}
-#endif
-
-/***********************************************************/
-// [0-0] 템플릿
-/***********************************************************/
-
-#if 0
-#include <stdio.h>
-
-int main(void)
-{
-
-
-	return 0;
-}
-#endif
-
-/***********************************************************/
-// [0-0] 템플릿
-/***********************************************************/
-
-#if 0
-#include <stdio.h>
-
-int main(void)
-{
-
+		fprintf(fs, "%3s %4d %.lf\n", name, total, avg);	//fs에 한 줄 쓴다.
+	}
+	fclose(fp);
+	fclose(fs);
 
 	return 0;
 }

@@ -15,19 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Exam.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="exam2.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="exam3.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="exam4.c">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="exam5.c">
+    <ClInclude Include="point.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="line.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main3.c">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
